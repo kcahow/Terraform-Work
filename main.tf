@@ -1,4 +1,5 @@
 provider "aws" {
+    profile = "default"
     region = "us-east-2"
 }
 
@@ -36,4 +37,23 @@ resource "aws_internet_gateway" "demo-igw" {
     Name = "demo-vpc-IGW"
     }
 }
+
+resource "aws_s3_bucket" "tf_bucket" {
+  bucket = "kc-tf-demo-bucket"
+
+  tags = {
+    Terraform   = "true"
+    Name        = "My TF bucket"
+    Environment = "Production"
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+# resource "aws_s3_bucket_acl" "btf_bucket_acl" {
+#   bucket = aws_s3_bucket.tf_bucket.id
+#   acl    = "public-read"
+# }
 
